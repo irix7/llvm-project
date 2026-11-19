@@ -255,6 +255,7 @@ include "MipsCombine.td"
 // Avoid forward declaration issues.
 include "MipsScheduleI6400.td"
 include "MipsScheduleP5600.td"
+include "MipsScheduleR4600.td"
 include "MipsScheduleGeneric.td"
 
 defm : RemapAllTargetPseudoPointerOperands<mips_ptr_rc>;
@@ -279,6 +280,12 @@ def ImplI6400
 def ImplI6500
     : SubtargetFeature<"i6500", "ProcImpl", "MipsSubtarget::CPU::I6500",
                        "MIPS I6500 Processor", [FeatureMips64r6, FeatureMSA]>;
+
+// The R4600 is MIPS III. The R4600SC is the same core with a secondary cache,
+// which the compiler does not see, so one processor name covers both.
+def ImplR4600 : SubtargetFeature<"r4600", "ProcImpl",
+                                 "MipsSubtarget::CPU::R4600",
+                                 "The R4600 Processor", [FeatureMips3]>;
 
 class Proc<string Name, list<SubtargetFeature> Features>
  : ProcessorModel<Name, MipsGenericModel, Features>;
@@ -306,6 +313,7 @@ def : ProcessorModel<"p5600", MipsP5600Model, [ImplP5600]>;
 def : Proc<"r5900", [FeatureR5900]>;
 def : ProcessorModel<"i6400", MipsI6400Model, [ImplI6400]>;
 def : ProcessorModel<"i6500", MipsI6400Model, [ImplI6500]>;
+def : ProcessorModel<"r4600", MipsR4600Model, [ImplR4600]>;
 
 def MipsAsmParser : AsmParser {
   let ShouldEmitMatchRegisterName = 0;
