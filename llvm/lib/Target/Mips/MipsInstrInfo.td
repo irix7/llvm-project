@@ -2569,8 +2569,10 @@ class CacheOp<string instr_asm, Operand MemOpnd> :
 let AdditionalPredicates = [NotInMicroMips] in {
   def CACHE : MMRel, CacheOp<"cache", mem>, CACHEOP_FM<0b101111>,
               INSN_MIPS3_32_NOT_32R6_64R6;
+  // PREF is a MIPS IV instruction. The R4600 is MIPS III and raises a
+  // Reserved Instruction exception on it.
   def PREF :  MMRel, CacheOp<"pref", mem>, CACHEOP_FM<0b110011>,
-              INSN_MIPS3_32_NOT_32R6_64R6;
+              INSN_MIPS4_32_NOT_32R6_64R6;
 }
 // FIXME: We are missing the prefx instruction.
 def ROL : MipsAsmPseudoInst<(outs),
