@@ -270,6 +270,7 @@ public:
   bool hasMips3() const { return MipsArchVersion >= Mips3; }
   bool hasMips4() const { return MipsArchVersion >= Mips4; }
   bool hasMips5() const { return MipsArchVersion >= Mips5; }
+  bool isR4600() const { return ProcImpl == CPU::R4600; }
   bool hasMips4_32() const { return HasMips4_32; }
   bool hasMips4_32r2() const { return HasMips4_32r2; }
   bool hasMips32() const {

@@ -819,8 +819,10 @@ bool MipsBranchExpansion::handleSlot(Pred Predicate, Safe SafeInSlot) {
 
 bool MipsBranchExpansion::handleMFLO() {
   // mips1-4 require a minimum of 2 instructions between a mflo/mfhi
-  // and the next mul/div instruction.
-  if (STI->hasMips32() || STI->hasMips5())
+  // and the next mul/div instruction. The R4600 is excepted: its HI and LO
+  // are written after the W stage and it has no such hazard (IDT R4600 manual,
+  // Table 1.23).
+  if (STI->hasMips32() || STI->hasMips5() || STI->isR4600())
     return false;
 
   return handleMFLOSlot(
